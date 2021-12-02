@@ -25,15 +25,15 @@ main() {
         touch "${path}/input.txt"
         cat << EOF  > "${path}/run_it.ts"
 async function loadInput() {
-    return await Deno.readTextFile("./input_test.txt");
+    return await Deno.readTextFile("./input_test.txt")
 }
 
 function parseInput(input: string) {
-    return input.split("\n").map(it => +it);
+    return input.split("\n").map(it => +it)
 }
 
 async function main() {
-    const input = parseInput(await loadInput());
+    const input = parseInput(await loadInput())
 }
 
 main()
