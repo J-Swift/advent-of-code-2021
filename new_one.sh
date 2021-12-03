@@ -40,7 +40,7 @@ main()
 EOF
     fi
 
-    code "day_${day}/part_${part}/run_it.ts"
+    code "day_${day}/part_${part}"
 }
 
 main
