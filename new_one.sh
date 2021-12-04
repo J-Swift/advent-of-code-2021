@@ -29,7 +29,7 @@ async function loadInput() {
 }
 
 function parseInput(input: string) {
-    return input.split("\n").map(it => +it)
+    return input.split("\n")
 }
 
 async function main() {
