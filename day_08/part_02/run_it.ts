@@ -32,6 +32,19 @@ function intersection<T>(setA: Set<T>, setB: Set<T>) {
     return _intersection
 }
 
+function permutations(letters: Set<string>) {
+    if (letters.size == 0) return [""]
+
+    let res: string[] = []
+    letters.forEach(letter => {
+        const next = new Set(letters)
+        next.delete(letter)
+        const perms = permutations(next)
+        res = res.concat(perms.map(it => letter + it))
+    })
+    return res
+}
+
 // shoutout to John Sickels for the approach
 function solveCase(c: Case) {
     let segmentMappings: {[key: number]: Set<string>} = {}
@@ -90,10 +103,50 @@ function solveCase(c: Case) {
     return c.output.map(it => lookup[it])
 }
 
+const trueMappingsInverse = {
+    'abcefg': 0,
+    'cf': 1,
+    'acdeg': 2,
+    'acdfg': 3,
+    'bcdf': 4,
+    'abdfg': 5,
+    'abdefg': 6,
+    'acf': 7,
+    'abcdefg': 8,
+    'abcdfg': 9,
+} as {[key: string]: number}
+
+function convertTo(source: string, mapping: string[]) {
+    return source.split("").map(it => {
+        let code = it.charCodeAt(0) - "a".charCodeAt(0)
+        return mapping[code]
+    }).sort().join("")
+}
+
+function solveCaseBrute(c: Case, perms: string[][]) {
+    let encodedDigits = c.signals
+    let perm = perms.find(it => {
+        let idx = 0
+        while(idx<encodedDigits.length) {
+            let converted = convertTo(encodedDigits[idx], it)
+            if (trueMappingsInverse[converted] == null) return false
+            idx++
+        }
+        return true
+    })
+
+    return c.output.map(it => trueMappingsInverse[convertTo(it, perm as string[])])
+}
+
 async function main() {
     const input = parseInput(await loadInput())
     const normalized = normalize(input)
-    const sum = normalized.reduce((memo, val) => memo + parseInt(solveCase(val).join(""), 10), 0)
+
+    let sum = normalized.reduce((memo, val) => memo + parseInt(solveCase(val).join(""), 10), 0)
+    console.log(sum)
+
+    const perms = permutations(new Set("abcdefg".split(""))).map(it => it.split(""))
+    sum = normalized.reduce((memo, val) => memo + parseInt(solveCaseBrute(val, perms).join(""), 10), 0)
     console.log(sum)
 }
 
