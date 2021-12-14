@@ -1,0 +1,1 @@
+I honestly have no idea why my math hack to calculate the score on part 2 works. I sort of guessed you might be able to divide by 2 and it worked out, but I'm not sure if thats a guarantee or just a side-effect of the specific test data.
