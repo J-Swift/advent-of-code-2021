@@ -1,0 +1,1 @@
+Man part 2 put a hurting on me. Had a tough time remembering how to do a balanced binary tree and I didn't want to look it up since I already looked up Djikstra for part 1. Went with the naive array approach and just let it run to completion (~10-15mins).
